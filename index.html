@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="EduPath helps students explore technical courses,
+          develop skills and discover possible career paths.">
+
+    <meta name="theme-color" content="#102b50">
+
+    <title>EduPath | Discover Your Path</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+
+            <a href="#home" class="brand">
+                <span class="brand-icon">E</span>
+                <span>EduPath<span class="brand-dot">.</span></span>
+            </a>
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#courses">Courses</a>
+                <a href="#about">About</a>
+                <a href="#roadmap">Career Roadmap</a>
+                <a href="#contact" class="nav-cta">Get Started ↗</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        <span class="status-dot"></span>
+                        YOUR LEARNING JOURNEY STARTS HERE
+                    </div>
+
+                    <h1>
+                        Discover your path.<br>
+                        <span>Build your future.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore technical courses, discover useful skills
+                        and take your next step towards a career you love.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#courses" class="btn btn-primary">
+                            Explore Courses <span>→</span>
+                        </a>
+
+                        <a href="#about" class="btn btn-secondary">
+                            Learn About Us
+                        </a>
+                    </div>
+
+                    <div class="hero-note">
+                        <span class="note-check">✓</span>
+                        Beginner-friendly learning guidance
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+
+                    <div class="visual-glow"></div>
+
+                    <div class="learning-card">
+                        <div class="card-top">
+                            <span class="small-label">YOUR NEXT CHAPTER</span>
+                            <span class="live-badge">EXPLORE</span>
+                        </div>
+
+                        <div class="visual-symbol">✦</div>
+
+                        <h2>Learn something<br>that moves you forward.</h2>
+
+                        <p>
+                            Small steps today. New possibilities tomorrow.
+                        </p>
+
+                        <div class="visual-divider"></div>
+
+                        <div class="visual-bottom">
+                            <span>Discover</span>
+                            <span>Learn</span>
+                            <span>Grow</span>
+                        </div>
+                    </div>
+
+                    <div class="floating-tag tag-one">
+                        <span class="tag-icon">01</span>
+                        Find your interest
+                    </div>
+
+                    <div class="floating-tag tag-two">
+                        <span class="tag-icon">02</span>
+                        Build new skills
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Highlights -->
+        <section class="highlights">
+            <div class="container highlights-grid">
+
+                <div class="highlight-item">
+                    <span class="highlight-icon">01</span>
+                    <div>
+                        <h3>Explore</h3>
+                        <p>Discover different learning areas.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-item">
+                    <span class="highlight-icon">02</span>
+                    <div>
+                        <h3>Learn</h3>
+                        <p>Understand the skills you need.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-item">
+                    <span class="highlight-icon">03</span>
+                    <div>
+                        <h3>Grow</h3>
+                        <p>Plan your next learning step.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Courses -->
+        <section class="section courses-section" id="courses">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">LEARNING LIBRARY</span>
+                        <h2>Find your next skill.</h2>
+                        <p>
+                            Explore courses designed to introduce you
+                            to useful technical skills.
+                        </p>
+                    </div>
+
+                    <div class="course-counter">
+                        <span id="courseCount">{{ courses|length }}</span>
+                        <small>courses available</small>
+                    </div>
+                </div>
+
+
+                <div class="course-controls">
+
+                    <label class="search-box">
+                        <span aria-hidden="true">⌕</span>
+
+                        <input type="search"
+                               id="courseSearch"
+                               placeholder="Search courses or skills..."
+                               aria-label="Search courses">
+                    </label>
+
+                    <label class="filter-label">
+                        <span>Category</span>
+
+                        <select id="categoryFilter"
+                                aria-label="Filter by category">
+                            <option value="all">All categories</option>
+                            <option value="Programming">Programming</option>
+                            <option value="AI & Data">AI & Data</option>
+                            <option value="Web Development">
+                                Web Development
+                            </option>
+                        </select>
+                    </label>
+
+                    <button class="btn btn-secondary saved-filter"
+                            id="savedFilter"
+                            type="button">
+                        ☆ Saved (<span id="savedCount">0</span>)
+                    </button>
+
+                </div>
+
+
+                <div class="course-grid" id="courseGrid">
+
+                    {% for course in courses %}
+
+                    <article class="course-card"
+                             data-id="{{ course.id }}"
+                             data-name="{{ course.name }}"
+                             data-category="{{ course.category }}"
+                             data-search="{{ course.name }} {{ course.category }} {{ course.skills | join(' ') }} {{ course.description }}"
+                             data-saved="false">
+
+                        <div class="course-card-top">
+
+                            <div class="course-icon {{ course.color }}">
+                                {{ course.icon }}
+                            </div>
+
+                            <button class="save-button"
+                                    type="button"
+                                    data-save="{{ course.id }}"
+                                    aria-label="Save {{ course.name }}"
+                                    aria-pressed="false">
+                                ☆
+                            </button>
+
+                        </div>
+
+                        <div class="course-meta">
+                            <span>{{ course.category }}</span>
+                            <span>{{ course.level }}</span>
+                        </div>
+
+                        <h3>{{ course.name }}</h3>
+
+                        <p class="course-description">
+                            {{ course.description }}
+                        </p>
+
+                        <div class="course-card-footer">
+                            <span>◷ {{ course.duration }}</span>
+
+                            <button class="text-button"
+                                    type="button"
+                                    data-details="{{ course.id }}">
+                                View details →
+                            </button>
+                        </div>
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="empty-state" id="emptyState" hidden>
+                    <span class="empty-icon">⌕</span>
+                    <h3>No courses found</h3>
+                    <p>Try a different keyword or category.</p>
+
+                    <button class="btn btn-primary"
+                            id="resetSearch"
+                            type="button">
+                        Reset filters
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- About -->
+        <section class="section about-section" id="about">
+            <div class="container about-grid">
+
+                <div class="about-visual">
+                    <div class="about-number">EP.</div>
+
+                    <div class="about-quote">
+                        <span>OUR BELIEF</span>
+                        <h3>
+                            Every learner deserves
+                            a clear place to begin.
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="about-content">
+
+                    <span class="section-label">ABOUT EDUPATH</span>
+
+                    <h2>Learning becomes easier when you know where to start.</h2>
+
+                    <p>
+                        EduPath is an educational guidance website concept
+                        created to help students explore technical learning
+                        opportunities and understand possible career paths.
+                    </p>
+
+                    <p>
+                        Our goal is to make the first step simpler by
+                        organising learning topics, beginner-level courses
+                        and skill ideas in one place.
+                    </p>
+
+                    <div class="about-points">
+                        <div>
+                            <span>✓</span>
+                            Easy-to-explore course categories
+                        </div>
+
+                        <div>
+                            <span>✓</span>
+                            Beginner-friendly skill suggestions
+                        </div>
+
+                        <div>
+                            <span>✓</span>
+                            Simple career exploration tools
+                        </div>
+                    </div>
+
+                    <a href="#courses" class="btn btn-primary">
+                        Start Exploring →
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Smart Course Finder -->
+        <section class="section finder-section" id="finder">
+            <div class="container finder-container">
+
+                <div class="finder-intro">
+                    <span class="section-label">SMART COURSE FINDER</span>
+
+                    <h2>Not sure what to learn?</h2>
+
+                    <p>
+                        Answer three simple questions to discover a
+                        course that matches your selected interests.
+                    </p>
+
+                    <div class="finder-note">
+                        A rule-based learning suggestion tool.
+                        No account required.
+                    </div>
+                </div>
+
+
+                <form id="finderForm" class="finder-form">
+
+                    <div class="question-group">
+                        <label for="interest">
+                            01. What interests you most?
+                        </label>
+
+                        <select id="interest" required>
+                            <option value="">Choose an interest</option>
+                            <option value="Programming">Coding and logic</option>
+                            <option value="AI & Data">AI and data</option>
+                            <option value="Web Development">
+                                Website design
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <div class="question-group">
+                        <label for="experience">
+                            02. What is your current level?
+                        </label>
+
+                        <select id="experience" required>
+                            <option value="">Choose your level</option>
+                            <option value="Beginner">Just starting</option>
+                            <option value="Intermediate">
+                                I know some basics
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <div class="question-group">
+                        <label for="goal">
+                            03. What would you like to achieve?
+                        </label>
+
+                        <select id="goal" required>
+                            <option value="">Choose a goal</option>
+                            <option value="career">Prepare for a career</option>
+                            <option value="projects">Build projects</option>
+                            <option value="explore">Explore new skills</option>
+                        </select>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary full-width">
+                        Find My Course →
+                    </button>
+
+                    <div id="finderResult"
+                         class="finder-result"
+                         role="status"
+                         aria-live="polite"
+                         hidden>
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+
+        <!-- Career Roadmap -->
+        <section class="section roadmap-section" id="roadmap">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">YOUR NEXT STEPS</span>
+                        <h2>A simple roadmap to grow.</h2>
+                        <p>
+                            Use these stages to organise your learning journey.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="roadmap-grid">
+
+                    <article class="roadmap-card">
+                        <span class="roadmap-step">STEP 01</span>
+                        <div class="roadmap-icon">◎</div>
+                        <h3>Discover</h3>
+                        <p>
+                            Identify your interests and choose
+                            one topic to explore.
+                        </p>
+                    </article>
+
+                    <article class="roadmap-card">
+                        <span class="roadmap-step">STEP 02</span>
+                        <div class="roadmap-icon">⌘</div>
+                        <h3>Learn</h3>
+                        <p>
+                            Study the fundamentals and practise
+                            with small exercises.
+                        </p>
+                    </article>
+
+                    <article class="roadmap-card">
+                        <span class="roadmap-step">STEP 03</span>
+                        <div class="roadmap-icon">◇</div>
+                        <h3>Build</h3>
+                        <p>
+                            Apply your knowledge by creating
+                            a small personal project.
+                        </p>
+                    </article>
+
+                    <article class="roadmap-card">
+                        <span class="roadmap-step">STEP 04</span>
+                        <div class="roadmap-icon">↗</div>
+                        <h3>Grow</h3>
+                        <p>
+                            Review your progress and explore
+                            your next learning goal.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Contact -->
+        <section class="section contact-section" id="contact">
+            <div class="container contact-grid">
+
+                <div class="contact-content">
+
+                    <span class="section-label">LET'S CONNECT</span>
+
+                    <h2>Have a question?</h2>
+
+                    <p>
+                        Use the form to try the EduPath contact
+                        interface. Email delivery is not enabled
+                        in this demonstration version.
+                    </p>
+
+                    <div class="contact-info">
+                        <span class="contact-info-icon">@</span>
+
+                        <div>
+                            <strong>Questions and feedback</strong>
+                            <p>We welcome your ideas for improving EduPath.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <form id="contactForm" class="contact-form">
+
+                    <div class="form-heading">
+                        <h3>Send an enquiry</h3>
+                        <p>Complete all three fields below.</p>
+                    </div>
+
+                    <label for="contactName">Your name</label>
+
+                    <input type="text"
+                           id="contactName"
+                           name="name"
+                           maxlength="100"
+                           placeholder="Enter your name"
+                           required>
+
+                    <label for="contactEmail">Email address</label>
+
+                    <input type="email"
+                           id="contactEmail"
+                           name="email"
+                           maxlength="254"
+                           placeholder="you@example.com"
+                           required>
+
+                    <label for="contactMessage">Your message</label>
+
+                    <textarea id="contactMessage"
+                              name="message"
+                              rows="4"
+                              maxlength="2000"
+                              placeholder="How can we help?"
+                              required></textarea>
+
+                    <button type="submit"
+                            class="btn btn-primary full-width"
+                            id="contactSubmit">
+                        Submit Enquiry →
+                    </button>
+
+                    <div id="contactStatus"
+                         class="form-status"
+                         role="status"
+                         aria-live="polite"
+                         hidden>
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-top">
+
+            <a href="#home" class="brand footer-brand">
+                <span class="brand-icon">E</span>
+                <span>EduPath<span class="brand-dot">.</span></span>
+            </a>
+
+            <p>
+                Discover your path. Build your future.
+            </p>
+
+            <a href="#home" class="back-top">Back to top ↑</a>
+
+        </div>
+
+        <div class="container footer-bottom">
+            <p>© 2026 EduPath. Educational demonstration project.</p>
+            <p>Built with Python, Flask, HTML, CSS and JavaScript.</p>
+        </div>
+    </footer>
+
+
+    <!-- Course Details Dialog -->
+    <dialog id="courseDialog" class="course-dialog">
+
+        <div class="dialog-header">
+            <span class="section-label">COURSE OVERVIEW</span>
+
+            <button type="button"
+                    id="closeDialog"
+                    class="dialog-close"
+                    aria-label="Close course details">
+                ×
+            </button>
+        </div>
+
+        <div id="dialogContent"></div>
+
+    </dialog>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"
+            defer></script>
+
+</body>
+</html>
